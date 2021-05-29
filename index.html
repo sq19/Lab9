@@ -85,12 +85,13 @@
     });
     let consoleGroupStartBtn = errorBtns[4];
     consoleGroupStartBtn.addEventListener('click', () => {
-      console.group('console methods');
+      console.group('Log Group');
     })
-    //let consoleGroupEndBtn = errorBtns[5];
+    let consoleGroupEndBtn = errorBtns[5];
     try {
       consoleGroupEndBtn.addEventListener('click', () => {
-        console.groupEnd('console methods');
+        console.groupEnd();
+        //console.log('group ended');
       });
     } catch (err) {
       console.error("there is an error: " + err);
@@ -99,25 +100,35 @@
     consoleTableBtn.addEventListener('click', () => {
       console.table([
         {
-          first: 'Shirley',
-          last: 'Qi',
+          class: 'Abstract Algebra',
+          num: 'MATH 100C',
         },
         {
-          first: 'Trisa',
-          last: 'Leung',
+          class: 'Software Engineering',
+          num: 'CSE 110',
         },
         {
-          first: 'David',
-          last: 'Truong',
+          class: 'Algorithms',
+          num: 'CSE 101',
+        },
+        {
+          class: 'Intro to Stochastic Processes',
+          num: 'MATH 180B',
+        },
+        {
+          class: 'Intro to Cognitive Science',
+          num: 'COGS 1',
         }
       ]);
     });
     let startTimerBtn = errorBtns[7];
     startTimerBtn.addEventListener('click', () => {
+      console.log('Timer started!');
       console.time('timer');
     });
     let endTimerBtn = errorBtns[8];
     endTimerBtn.addEventListener('click', () => {
+      console.log('Timer ended!');
       console.timeEnd('timer');
     });
     let consoleTraceBtn = errorBtns[9];
