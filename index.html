@@ -55,6 +55,15 @@
     <button>Trigger a Global Error</button>
   </section>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "5dbc314f97544c48ac22a34f21dd69c3"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+
   <script>
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
@@ -62,7 +71,16 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        if (operator == '/' && secondNum == '0') {
+          console.error('divide by 0');
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (err) {
+        console.error('There was an error with the input');
+      } finally {
+        console.log('finish');
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
@@ -88,14 +106,10 @@
       console.group('Log Group');
     })
     let consoleGroupEndBtn = errorBtns[5];
-    try {
-      consoleGroupEndBtn.addEventListener('click', () => {
-        console.groupEnd();
-        //console.log('group ended');
-      });
-    } catch (err) {
-      console.error("there is an error: " + err);
-    }
+    consoleGroupEndBtn.addEventListener('click', () => {
+      console.groupEnd();
+      //console.log('group ended');
+    });
     let consoleTableBtn = errorBtns[6];
     consoleTableBtn.addEventListener('click', () => {
       console.table([
@@ -135,9 +149,21 @@
     consoleTraceBtn.addEventListener('click', () => {
       console.trace();
     });
+
+    class ValueError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'ValueError';
+      }
+    }
+
+    window.onerror = (function (msg, url, lineNo, columnNo, error) {
+      console.log('oops a global error');
+    });
+
     let globalErrorBtn = errorBtns[10];
     globalErrorBtn.addEventListener('click', () => {
-
+      throw new ValueError('Here is a custom error');
     });
   </script>
 </body>
